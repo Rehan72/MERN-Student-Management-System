@@ -1,8 +1,19 @@
 import { create } from 'zustand';
 import axiosInstance from '../api/axiosInstance';
+import { decodeJWT } from '../lib/utils';
+
+const getSafeUser = () => {
+  const user = localStorage.getItem('user');
+  if (!user || user === 'undefined' || user === 'null') return null;
+  try {
+    return JSON.parse(user);
+  } catch (e) {
+    return null;
+  }
+};
 
 const useAuthStore = create((set) => ({
-  user: JSON.parse(localStorage.getItem('user')) || null,
+  user: getSafeUser(),
   token: localStorage.getItem('token') || null,
   isAuthenticated: !!localStorage.getItem('token'),
   isLoading: false,
@@ -12,13 +23,26 @@ const useAuthStore = create((set) => ({
     set({ isLoading: true, error: null });
     try {
       const response = await axiosInstance.post('/auth/login', { email, password });
-      const { token, user } = response.data;
+      const { token } = response.data;
+      
+      // Extract user from token if not provided in response
+      let userData = response.data.user;
+      if (!userData && token) {
+        const decoded = decodeJWT(token);
+        if (decoded) {
+          userData = {
+            ...decoded,
+            name: decoded.username || decoded.name || 'User',
+            role: decoded.role || 'Student'
+          };
+        }
+      }
       
       localStorage.setItem('token', token);
-      localStorage.setItem('user', JSON.stringify(user));
+      localStorage.setItem('user', JSON.stringify(userData));
       
       set({ 
-        user: user, 
+        user: userData, 
         token: token, 
         isAuthenticated: true, 
         isLoading: false 
