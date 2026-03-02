@@ -18,8 +18,8 @@ function Layout({ children }) {
   }, []);
 
   return (
-    <div className="relative h-screen flex flex-col bg-surface-base text-foreground font-sans selection:bg-brand-primary/30 selection:text-white antialiased overflow-hidden">
-      <header className="sticky top-0 z-40 w-full glass border-b border-brand-border backdrop-blur-3xl">
+    <div className="relative h-screen flex flex-col bg-[#F4F6F9] text-foreground font-sans selection:bg-sky-500/30 selection:text-white antialiased overflow-hidden">
+      <header className="sticky top-0 z-40 w-full bg-[#1A2B4A] border-b border-white/10 backdrop-blur-3xl">
         <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
       </header>
 
@@ -37,7 +37,7 @@ function Layout({ children }) {
         </div>
       </div>
       {/* Footer */}
-      <footer className="relative z-10 px-6 py-8 md:px-10 border-t border-brand-border bg-black/10 backdrop-blur-xl mt-auto">
+      <footer className="relative z-10 px-6 py-8 md:px-10 border-t border-white/10 bg-[#2D3748] backdrop-blur-xl mt-auto">
         <Footer />
       </footer>
     </div>
