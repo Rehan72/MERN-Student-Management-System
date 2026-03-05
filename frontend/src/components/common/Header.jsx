@@ -9,7 +9,6 @@ import {
   GraduationCap,
   Menu,
   X,
-  Home,
   Users,
   BookOpen,
   BarChart3,
@@ -27,7 +26,6 @@ const Header = ({ sidebarOpen, setSidebarOpen }) => {
   const userMenuRef = useRef(null);
   const notificationsRef = useRef(null);
 
-  // Close dropdowns when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
@@ -62,7 +60,6 @@ const Header = ({ sidebarOpen, setSidebarOpen }) => {
     navigate('/login');
   };
 
-  // Sample notifications
   const notifications = [
     { id: 1, title: 'New student registered', time: '2 min ago', read: false },
     { id: 2, title: 'Course assignment updated', time: '1 hour ago', read: false },
@@ -75,21 +72,20 @@ const Header = ({ sidebarOpen, setSidebarOpen }) => {
       <div className="flex items-center justify-between w-full h-[73px] px-4 md:px-6">
         {/* Left Section */}
         <div className="flex items-center gap-4">
-          {/* Mobile Menu Toggle */}
           <button
             onClick={() => setSidebarOpen(!sidebarOpen)}
-            className="lg:hidden p-2 rounded-xl text-white hover:text-white hover:bg-white/10 transition-all duration-200"
+            className="lg:hidden p-2 rounded-xl text-slate-400 hover:text-white hover:bg-white/10 transition-all duration-200"
           >
             {sidebarOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
 
           {/* Logo */}
           <Link to="/dashboard" className="flex items-center gap-3 group">
-            <div className="relative flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-sky-500 to-sky-600 shadow-lg shadow-sky-500/20 group-hover:shadow-sky-500/40 transition-all duration-300">
+            <div className="relative flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-violet-600 shadow-lg shadow-indigo-500/25 group-hover:shadow-indigo-500/40 transition-all duration-300">
               <GraduationCap size={20} className="text-white" />
             </div>
             <span className="hidden sm:block text-lg font-bold tracking-tight text-white">
-              Student<span className="text-sky-400">MS</span>
+              Student<span className="text-indigo-400">MS</span>
             </span>
           </Link>
         </div>
@@ -102,18 +98,18 @@ const Header = ({ sidebarOpen, setSidebarOpen }) => {
               <Link
                 key={item.id + item.path}
                 to={item.path}
-                className={`relative flex items-center gap-2 px-4 py-2.5 rounded-xl text-[10px] font-black tracking-widest uppercase transition-all duration-300 ${
+                className={`relative flex items-center gap-2 px-4 py-2.5 rounded-xl text-[10px] font-bold tracking-widest uppercase transition-all duration-300 ${
                   active
-                    ? 'text-sky-400'
-                    : 'text-white/80 hover:text-white hover:bg-white/5'
+                    ? 'text-indigo-400'
+                    : 'text-slate-400 hover:text-white hover:bg-white/5'
                 }`}
               >
-                <item.icon size={14} className={active ? 'text-sky-400' : 'text-white/80'} />
+                <item.icon size={14} className={active ? 'text-indigo-400' : 'text-slate-500'} />
                 {item.name}
                 {active && (
                   <motion.div
                     layoutId="header-nav-bg"
-                    className="absolute inset-0 bg-sky-500/10 rounded-xl -z-10 border border-sky-500/20"
+                    className="absolute inset-0 bg-indigo-500/10 rounded-xl -z-10 border border-indigo-500/20"
                   />
                 )}
               </Link>
@@ -127,11 +123,11 @@ const Header = ({ sidebarOpen, setSidebarOpen }) => {
           <div className="relative" ref={notificationsRef}>
             <button
               onClick={() => setNotificationsOpen(!notificationsOpen)}
-              className="relative p-2.5 rounded-xl text-white/80 hover:text-white hover:bg-white/10 transition-all duration-200"
+              className="relative p-2.5 rounded-xl text-slate-400 hover:text-white hover:bg-white/10 transition-all duration-200"
             >
               <Bell size={18} />
               {unreadCount > 0 && (
-                <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-sky-400 rounded-full animate-pulse shadow-[0_0_8px_rgba(59,130,246,0.8)]" />
+                <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-indigo-400 rounded-full animate-pulse shadow-[0_0_8px_rgba(99,102,241,0.8)]" />
               )}
             </button>
 
@@ -142,34 +138,34 @@ const Header = ({ sidebarOpen, setSidebarOpen }) => {
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: 10, scale: 0.95 }}
                   transition={{ duration: 0.2 }}
-                  className="absolute right-0 mt-3 w-80 bg-[#1a1a1a]/90 backdrop-blur-3xl border border-white/10 rounded-2xl shadow-2xl overflow-hidden z-50"
+                  className="absolute right-0 mt-3 w-80 bg-slate-900/95 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl overflow-hidden z-50"
                 >
-                  <div className="px-5 py-4 border-b border-white/10 flex items-center justify-between">
-                    <h3 className="text-xs font-black tracking-widest text-sky-400 uppercase">Notifications</h3>
-                    <span className="text-[10px] text-white/60">{unreadCount} new</span>
+                  <div className="px-5 py-4 border-b border-white/[0.06] flex items-center justify-between">
+                    <h3 className="text-xs font-bold tracking-widest text-indigo-400 uppercase">Notifications</h3>
+                    <span className="text-[10px] text-slate-500">{unreadCount} new</span>
                   </div>
                   <div className="max-h-80 overflow-y-auto">
                     {notifications.map((notif) => (
                       <div
                         key={notif.id}
-                        className={`px-5 py-4 hover:bg-white/5 transition-colors cursor-pointer border-b border-white/5 last:border-0 ${
-                          !notif.read ? 'bg-sky-500/10' : ''
+                        className={`px-5 py-4 hover:bg-white/5 transition-colors cursor-pointer border-b border-white/[0.04] last:border-0 ${
+                          !notif.read ? 'bg-indigo-500/5' : ''
                         }`}
                       >
                         <div className="flex items-start gap-3">
                           {!notif.read && (
-                            <div className="w-2 h-2 rounded-full bg-sky-400 mt-1.5 shrink-0" />
+                            <div className="w-2 h-2 rounded-full bg-indigo-400 mt-1.5 shrink-0" />
                           )}
                           <div className={!notif.read ? '' : 'ml-5'}>
-                            <p className="text-xs font-medium text-white">{notif.title}</p>
-                            <p className="text-[10px] text-white/60 mt-1">{notif.time}</p>
+                            <p className="text-xs font-medium text-slate-200">{notif.title}</p>
+                            <p className="text-[10px] text-slate-500 mt-1">{notif.time}</p>
                           </div>
                         </div>
                       </div>
                     ))}
                   </div>
-                  <div className="px-5 py-3 border-t border-white/10 bg-white/5">
-                    <button className="text-[10px] font-bold uppercase tracking-widest text-sky-400 hover:underline">
+                  <div className="px-5 py-3 border-t border-white/[0.06] bg-white/[0.02]">
+                    <button className="text-[10px] font-bold uppercase tracking-widest text-indigo-400 hover:underline">
                       View all notifications
                     </button>
                   </div>
@@ -185,15 +181,15 @@ const Header = ({ sidebarOpen, setSidebarOpen }) => {
                 onClick={() => setUserMenuOpen(!userMenuOpen)}
                 className="flex items-center gap-2 px-3 py-2 rounded-xl hover:bg-white/10 transition-all duration-200"
               >
-                <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-sky-500 to-sky-600 flex items-center justify-center shadow-lg">
-                  <span className="text-xs font-black text-white">
+                <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center shadow-lg">
+                  <span className="text-xs font-bold text-white">
                     {user.name?.charAt(0).toUpperCase() || 'U'}
                   </span>
                 </div>
-                <span className="hidden xl:block text-xs font-bold text-white max-w-[100px] truncate">
+                <span className="hidden xl:block text-xs font-semibold text-slate-200 max-w-[100px] truncate">
                   {user.name || 'User'}
                 </span>
-                <ChevronDown size={14} className="hidden xl:block text-white" />
+                <ChevronDown size={14} className="hidden xl:block text-slate-500" />
               </button>
 
               <AnimatePresence>
@@ -203,12 +199,12 @@ const Header = ({ sidebarOpen, setSidebarOpen }) => {
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: 10, scale: 0.95 }}
                     transition={{ duration: 0.2 }}
-                    className="absolute right-0 mt-3 w-56 bg-[#1a1a1a]/90 backdrop-blur-3xl border border-white/10 rounded-2xl shadow-2xl overflow-hidden z-50"
+                    className="absolute right-0 mt-3 w-56 bg-slate-900/95 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl overflow-hidden z-50"
                   >
-                    <div className="px-5 py-4 border-b border-white/10">
+                    <div className="px-5 py-4 border-b border-white/[0.06]">
                       <p className="text-sm font-bold text-white truncate">{user.name || 'User'}</p>
-                      <p className="text-xs text-white/60 truncate">{user.email || 'user@example.com'}</p>
-                      <span className="inline-block mt-2 px-2.5 py-1 text-[9px] font-black uppercase tracking-wider bg-sky-500/20 text-sky-400 rounded-lg">
+                      <p className="text-xs text-slate-500 truncate">{user.email || 'user@example.com'}</p>
+                      <span className="inline-block mt-2 px-2.5 py-1 text-[9px] font-bold uppercase tracking-wider bg-indigo-500/15 text-indigo-400 rounded-lg">
                         {user.role || 'STUDENT'}
                       </span>
                     </div>
@@ -216,7 +212,7 @@ const Header = ({ sidebarOpen, setSidebarOpen }) => {
                       <Link
                         to="/profile"
                         onClick={() => setUserMenuOpen(false)}
-                        className="flex items-center gap-3 px-5 py-3 text-xs text-white hover:bg-white/5 transition-all"
+                        className="flex items-center gap-3 px-5 py-3 text-xs text-slate-300 hover:bg-white/5 transition-all"
                       >
                         <User size={14} />
                         <span className="font-medium">Profile</span>
@@ -224,13 +220,13 @@ const Header = ({ sidebarOpen, setSidebarOpen }) => {
                       <Link
                         to="/settings"
                         onClick={() => setUserMenuOpen(false)}
-                        className="flex items-center gap-3 px-5 py-3 text-xs text-white hover:bg-white/5 transition-all"
+                        className="flex items-center gap-3 px-5 py-3 text-xs text-slate-300 hover:bg-white/5 transition-all"
                       >
                         <Settings size={14} />
                         <span className="font-medium">Settings</span>
                       </Link>
                     </div>
-                    <div className="py-2 border-t border-white/10">
+                    <div className="py-2 border-t border-white/[0.06]">
                       <button
                         onClick={handleLogout}
                         className="flex items-center gap-3 w-full px-5 py-3 text-xs text-rose-400 hover:bg-rose-500/10 transition-all"
@@ -247,13 +243,13 @@ const Header = ({ sidebarOpen, setSidebarOpen }) => {
             <div className="flex items-center gap-2">
               <Link
                 to="/login"
-                className="px-4 py-2 text-xs font-bold uppercase tracking-widest text-white hover:text-sky-400 transition-colors"
+                className="px-4 py-2 text-xs font-bold uppercase tracking-widest text-slate-400 hover:text-indigo-400 transition-colors"
               >
                 Log in
               </Link>
               <Link
                 to="/register"
-                className="px-4 py-2 text-xs font-black uppercase tracking-widest bg-sky-500 text-white rounded-xl hover:bg-sky-600 transition-colors shadow-lg shadow-sky-500/20"
+                className="px-4 py-2 text-xs font-bold uppercase tracking-widest bg-indigo-600 text-white rounded-xl hover:bg-indigo-700 transition-colors shadow-lg shadow-indigo-500/25"
               >
                 Sign up
               </Link>

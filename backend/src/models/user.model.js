@@ -27,6 +27,11 @@ const userSchema = new mongoose.Schema({
       type: mongoose.Schema.Types.ObjectId,
       ref: "Role",
       required: true
+   },
+   class_id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Class",
+      required: false
    }
 });
 
